@@ -1,8 +1,5 @@
 package com.example.actuatorservice;
 
-import java.io.File;
-import java.util.concurrent.atomic.AtomicLong;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,17 +8,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class EventsController {
 
-    private static final String template = "Hello, %s!";
-    private final AtomicLong counter = new AtomicLong();
-
     @GetMapping("/event")
     @ResponseBody
-    public CompareEventsModel sayHello(@RequestParam(name="to", required=true) Integer fromYear,
-                               @RequestParam(name="from", required=true) Integer toYear) {
-        System.out.println("to: " + toYear + "; from: " + fromYear);
-        YearEventsModel toYearEvents = new YearEventsModel(new File("events_of_"+toYear));
-        YearEventsModel fromYearEvents = new YearEventsModel(new File("events_of_"+fromYear));
-        return new CompareEventsModel(toYearEvents, fromYearEvents);
+    public YearEventsModel event(@RequestParam(name="year", required=true) Integer year) {
+        System.out.println("year: " + year);
+        return new YearEventsModel(EventDAO.getEvents(year));
     }
 
+    @GetMapping("/lifeEvents")
+    @ResponseBody
+    public LifeEventsModel lifeEvents(@RequestParam(name="year", required=true) Integer year) {
+        System.out.println("year: " + year);
+        return new LifeEventsModel(year);
+    }
 }

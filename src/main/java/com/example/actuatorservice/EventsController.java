@@ -2,35 +2,45 @@ package com.example.actuatorservice;
 
 import java.io.IOException;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class EventsController {
 
-    @GetMapping("/events")
+    @GetMapping("/events/{id}")
     @CrossOrigin(origins = "http://localhost:3000")
     @ResponseBody
-    public YearEventsModel events(@RequestParam(name="year") Integer year) throws IOException {
-        return YearEventsModel.createFromYear(year);
+    public YearEventsModel events(@PathVariable("id") String id,
+                                  HttpServletRequest request) throws IOException {
+        return YearEventsModel.createFromYear(getYear(id, request));
     }
 
-    @GetMapping("/life-events")
+    @GetMapping("/life-events/{id}")
     @CrossOrigin(origins = "http://localhost:3000")
     @ResponseBody
-    public LifeEventsModel lifeEvents(@RequestParam(name="year", required=false) Integer year,
-                                      @RequestParam(name="id", required=false) String id,
-                                      @RequestHeader(name="Authorization", required=false) String authToken) {
-        if(year !=null){
-            return new LifeEventsModel(year);
+    public LifeEventsModel lifeEvents(@PathVariable("id") String id,
+                                      HttpServletRequest request) {
+        return new LifeEventsModel(getYear(id,request));
+    }
+
+    private int getYear(String id, HttpServletRequest request){
+        int year;
+        try {
+            year = Integer.parseInt(id);
+            return year;
+        } catch (NumberFormatException ignore) {}
+
+        String authHeader =  request.getHeader(HttpHeaders.AUTHORIZATION);
+        if(id != null && !authHeader.isEmpty()){
+            return TreeDataClient.getBirthYearById(id, authHeader);
         }
-        if(id != null & authToken != null){
-            return new LifeEventsModel(TreeDataClient.getBirthYearById(id, authToken));
-        }
-        return null;
+        return 0;
     }
 }

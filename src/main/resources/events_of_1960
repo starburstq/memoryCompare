@@ -1,0 +1,17 @@
+{
+    "events": [
+        {
+            "name": "name",
+            "imgUrl": "imgUrl",
+            "mediaUrl": "mediaUrl",
+            "type": "Movie"
+        },
+        {
+            "name": "name2",
+            "imgUrl": "imgUrl2",
+            "mediaUrl": "mediaUrl2",
+            "type": "Music"
+        }
+     ],
+    "year": 1960
+}

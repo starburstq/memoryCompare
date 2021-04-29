@@ -1,5 +1,6 @@
 package com.example.actuatorservice;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,7 +18,10 @@ public class LifeEventsModel {
         lifeEvents = new ArrayList<>();
 
         for(int i = 0; i < Arrays.stream(EVENT_OFFSETS).count(); i++) {
-            lifeEvents.add(new YearEventsModel(year + (EVENT_OFFSETS[i])));
+            try{
+                lifeEvents.add(YearEventsModel.createFromYear(year + (EVENT_OFFSETS[i])));
+            }
+            catch (IOException ignored) { }
         }
     }
 

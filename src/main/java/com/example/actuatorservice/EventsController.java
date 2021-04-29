@@ -1,5 +1,7 @@
 package com.example.actuatorservice;
 
+import java.io.IOException;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,12 +12,12 @@ public class EventsController {
 
     @GetMapping("/event")
     @ResponseBody
-    public YearEventsModel event(@RequestParam(name="year") Integer year) {
+    public YearEventsModel event(@RequestParam(name="year") Integer year) throws IOException {
         System.out.println("year: " + year);
-        return new YearEventsModel(year);
+        return YearEventsModel.createFromYear(year);
     }
 
-    @GetMapping("/lifeEvents")
+    @GetMapping("/life-events")
     @ResponseBody
     public LifeEventsModel lifeEvents(@RequestParam(name="year") Integer year) {
         LifeEventsModel life = new LifeEventsModel(year);

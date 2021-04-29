@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class LifeEventsModel {
 
-    public static int[] EVENT_OFFSETS = {0, 3,10,17,25,35,45,55,65,75,85,95};
+    public static int[] EVENT_OFFSETS = {0,3,10,17,25,35,45,55,65,75,85,95};
 
     List<YearEventsModel> lifeEvents;
 

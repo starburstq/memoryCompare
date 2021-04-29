@@ -13,15 +13,18 @@ public class EventsController {
     @GetMapping("/event")
     @ResponseBody
     public YearEventsModel event(@RequestParam(name="year") Integer year) throws IOException {
-        System.out.println("year: " + year);
         return YearEventsModel.createFromYear(year);
     }
 
     @GetMapping("/life-events")
     @ResponseBody
     public LifeEventsModel lifeEvents(@RequestParam(name="year") Integer year) {
-        LifeEventsModel life = new LifeEventsModel(year);
-        System.out.println(life);
-        return life;
+        return new LifeEventsModel(year);
+    }
+
+    @GetMapping("/life-events")
+    @ResponseBody
+    public LifeEventsModel lifeEvents(@RequestParam(name="id") String id) {
+        return new LifeEventsModel(TreeDataClient.getBirthYearById(id));
     }
 }

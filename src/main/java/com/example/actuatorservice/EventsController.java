@@ -10,15 +10,16 @@ public class EventsController {
 
     @GetMapping("/event")
     @ResponseBody
-    public YearEventsModel event(@RequestParam(name="year", required=true) Integer year) {
+    public YearEventsModel event(@RequestParam(name="year") Integer year) {
         System.out.println("year: " + year);
-        return new YearEventsModel(EventDAO.getEvents(year));
+        return new YearEventsModel(year);
     }
 
     @GetMapping("/lifeEvents")
     @ResponseBody
-    public LifeEventsModel lifeEvents(@RequestParam(name="year", required=true) Integer year) {
-        System.out.println("year: " + year);
-        return new LifeEventsModel(year);
+    public LifeEventsModel lifeEvents(@RequestParam(name="year") Integer year) {
+        LifeEventsModel life = new LifeEventsModel(year);
+        System.out.println(life);
+        return life;
     }
 }

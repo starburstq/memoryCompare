@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,7 +32,13 @@ public class EventDAO {
 
     private static final String EVENT_FILE_NAME_PREFIX = "events_of_";
 
+
+    private static final TreeMap<Integer, YearEventsModel> eventCache = new TreeMap<>();
+
     static YearEventsModel getEvents(int year){
+        if(eventCache.containsKey(year)){
+            return eventCache.get(year);
+        }
         File rawEvents;
         ClassPathResource resource = new ClassPathResource(EVENT_FILE_NAME_PREFIX + year);
 
@@ -51,6 +58,8 @@ public class EventDAO {
         catch (IOException e) {
             e.printStackTrace();
         }
+
+        eventCache.put(year,model);
         return model;
     }
     static YearEventsModel scrapeWebForData(int year){

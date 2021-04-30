@@ -1,7 +1,6 @@
 package com.example.actuatorservice;
 
 import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
@@ -27,6 +26,16 @@ public class EventsController {
     public LifeEventsModel lifeEvents(@PathVariable("id") String id,
                                       HttpServletRequest request) {
         return new LifeEventsModel(getYear(id,request));
+    }
+
+    @GetMapping("/preload")
+    @CrossOrigin(origins = "http://localhost:3000")
+    @ResponseBody
+    public Boolean preload(HttpServletRequest request) throws IOException {
+        for(int i=1959; i< 2022; i++){
+            YearEventsModel.createFromYear(i);
+        }
+        return true;
     }
 
 

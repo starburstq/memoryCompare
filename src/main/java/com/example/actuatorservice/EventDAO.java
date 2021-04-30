@@ -123,7 +123,7 @@ public class EventDAO {
                 Matcher details = getDetails(matcher.group(MUSIC_URL_REGEX_GROUP), MUSIC_DETAILS_REGEX);
                 if(details.find()){
                     event.setImgUrl(details.group(SRC_GROUP));
-                    event.setMediaUrl("unknown");
+                    event.setMediaUrl(matcher.group(MUSIC_URL_REGEX_GROUP));
                 }
                 event.setName(matcher.group(MUSIC_TITLE_REGEX_GROUP));
                 yearEvents.getEvents().add(event);

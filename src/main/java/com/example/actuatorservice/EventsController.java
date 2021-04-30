@@ -31,16 +31,18 @@ public class EventsController {
     }
 
     private int getYear(String id, HttpServletRequest request){
-        int year;
-        try {
-            year = Integer.parseInt(id);
+        Integer year = tryParseInt(id);
+        if(year != null){
             return year;
-        } catch (NumberFormatException ignore) {}
-
-        String authHeader =  request.getHeader(HttpHeaders.AUTHORIZATION);
-        if(id != null && !authHeader.isEmpty()){
-            return TreeDataClient.getBirthYearById(id, authHeader);
         }
-        return 0;
+        return TreeDataClient.getBirthYearById(id, request);
+    }
+
+    private Integer tryParseInt(String s){
+        try {
+            return Integer.parseInt(s);
+        } catch (NumberFormatException ignore) {
+            return null;
+        }
     }
 }

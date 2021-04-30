@@ -1,0 +1,11 @@
+{
+    "events": [
+        {
+            "name": "Could not interpret the year",
+            "imgUrl": "Could not interpret the year",
+            "mediaUrl": "Could not interpret the year",
+            "type": "Other"
+        }
+     ],
+    "year": 0
+}

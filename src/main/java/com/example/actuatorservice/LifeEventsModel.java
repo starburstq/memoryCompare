@@ -3,6 +3,7 @@ package com.example.actuatorservice;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -17,7 +18,12 @@ public class LifeEventsModel {
     public LifeEventsModel(int year) {
         lifeEvents = new ArrayList<>();
 
+        int thisYear = Calendar.getInstance().get(Calendar.YEAR);
+
         for(int i = 0; i < Arrays.stream(EVENT_OFFSETS).count(); i++) {
+            if(year + (EVENT_OFFSETS[i]) > thisYear){
+                break;
+            }
             try{
                 lifeEvents.add(YearEventsModel.createFromYear(year + (EVENT_OFFSETS[i])));
             }

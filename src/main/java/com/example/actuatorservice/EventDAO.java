@@ -63,7 +63,7 @@ public class EventDAO {
 
     private static void writeEventFile(YearEventsModel model) {
         try {
-            URL path = 
+            URL path = null;
             if (path != null) {
                 File file = new File(path.toURI());
                 new ObjectMapper().writeValue(file, model);

@@ -1,27 +1,23 @@
 package com.example.actuatorservice;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class YearEventsModel {
 
-    List<EventModel> events;
-    int year;
+    private List<EventModel> events;
+    private int year;
 
     public YearEventsModel(){
         events = new ArrayList<>();
     }
 
     public static YearEventsModel createFromYear(int year) throws IOException {
-        File rawEvents = EventDAO.getEvents(year);
-        if(rawEvents.exists()){
-            return new ObjectMapper().readValue(rawEvents,YearEventsModel.class);
-        }
-        return null;
+        return EventDAO.getEvents(year);
     }
 
     public int getYear() {
@@ -38,5 +34,16 @@ public class YearEventsModel {
 
     public void setEvents(List<EventModel> events) {
         this.events = events;
+    }
+
+    @Override
+    public String toString() {
+        try {
+            return new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(this);
+        }
+        catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

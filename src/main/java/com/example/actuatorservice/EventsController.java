@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +28,7 @@ public class EventsController {
                                       HttpServletRequest request) {
         return new LifeEventsModel(getYear(id,request));
     }
+
 
     private int getYear(String id, HttpServletRequest request){
         Integer year = tryParseInt(id);
